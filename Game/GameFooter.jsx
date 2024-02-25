@@ -9,9 +9,6 @@ export const GameFooter = () => {
 
     return <>
         <Box sx={{ zIndex: 9999 }}>
-            {JSON.stringify(globalState?.scores_primary)}
-
-            {JSON.stringify(globalState?.scores_secondary)}
         </Box>
     </>
 }

@@ -288,9 +288,11 @@ export const AppShell = () => {
                     <Typography sx={{ flexGrow: 1 }}>
                         Hide and Seek
                     </Typography>
-                    <Button variant="outlined" sx={{ justifySelf: "flex-end" }}>
-                        <QuestionMark />
-                    </Button>
+                    <Box display="block" sx={{ justifySelf: "flex-end", }}>
+                        <IconButton variant="outlined" sx={{ borderWidth: 1, borderColor: "black" }}>
+                            <Avatar sx={{bgcolor: "info.main"}}><QuestionMark /></Avatar>
+                        </IconButton>
+                    </Box>
                 </Stack>
             </Box>
             <iframe src="./Game/index.html" width="100%" style={{ border: 0, flexGrow: 1, boxSizing: "border-box" }}>
@@ -308,7 +310,6 @@ export const AppShell = () => {
                         </Avatar>
                     </Badge>
                 </Stack>
-                {JSON.stringify(scores)}
             </Box>
         </Stack>
     </>);

@@ -10,6 +10,8 @@ export default defineConfig({
     Mkcert(),
   ],
 
+  base: "/ar-game-template/",
+
   server: {
     host: true,
     port: 3000,
