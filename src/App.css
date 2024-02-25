@@ -1,0 +1,232 @@
+body {
+  margin: 0px;
+  overscroll-behavior-y: contain;
+  margin-bottom: 2in;
+}
+
+/* */
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentWrapper .content {
+  padding: 12px;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.contentWrapper .content .tabPanel {
+  padding: 0;
+}
+
+.contentWrapper .content .MuiTabs-root {
+  width: 100%;
+  max-width: 1400px;
+}
+
+.contentWrapper .content .MuiTabs-flexContainer {
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 767px) {
+  .contentWrapper .content {
+      padding: 8px;
+      margin-bottom: 10in;
+  }
+
+  .contentWrapper .content .MuiTabs-root {
+      max-width: 100%;
+  }
+}
+
+/* */
+
+.cardContainer {
+  display: grid;
+
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+
+  grid-template-columns: repeat(auto-fit, minmax(380px, 500px));
+  width: 100%;
+
+  justify-content: start;
+  align-items: flex-start;
+}
+
+.cardContainer .MuiCard-root {
+  flex: 1;
+  max-width: 500px;
+  min-width: 380px;
+}
+
+.cardContainer .MuiCard-root .MuiCardHeader-root .MuiCardHeader-content .MuiCardHeader-title {
+  font-size: 15pt;
+  font-weight: bold;
+}
+
+.MuiCardActions-root {
+  justify-content: flex-start;
+  align-content: center;
+}
+
+.flexWrapContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  text-align: left;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: center;
+  justify-items: left;
+
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+}
+
+.MuiCardActions-root .MuiChip-root {
+  margin: 0;
+}
+
+.MuiCardActions-root>.MuiIconButton-root:last-child {
+  margin-left: auto;
+  margin-top: 0;
+  /* padding-top: 0;
+  padding-bottom: 0; */
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1440px) {
+  .cardContainer {
+      grid-template-columns: repeat(auto-fit, minmax(500px, 600px));
+
+      grid-column-gap: 12px;
+      grid-row-gap: 1rem;
+  }
+
+  .cardContainer .MuiCard-root {
+      max-width: 600px;
+      min-width: 500px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .cardContainer {
+      grid-template-columns: repeat(auto-fit, minmax(500px, 600px));
+
+      grid-column-gap: 12px;
+      grid-row-gap: 1rem;
+  }
+
+  .cardContainer .MuiCard-root {
+      max-width: 600px;
+      min-width: 500px;
+  }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 767px) {
+  .cardContainer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      max-width: 100%;
+      align-items: stretch;
+      align-content: stretch;
+  }
+
+  .cardContainer .MuiCard-root {
+      max-width: 100%;
+      min-width: 500px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .cardContainer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      max-width: 100%;
+      align-items: stretch;
+      align-content: stretch;
+  }
+
+  .cardContainer .MuiCard-root {
+      max-width: 100%;
+      min-width: 100%;
+  }
+}
+
+.MuiCard-root {
+  margin-bottom: 5px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.MuiCard-root.MuiPaper-root:hover {}
+
+.MuiCard-root.empty.MuiPaper-root:hover {}
+
+.MuiCardHeader-root {
+  /* padding-bottom: 0px !important; */
+}
+
+.MuiCardHeader-root .MuiCardHeader-content .MuiTypography-root.MuiCardHeader-title {
+  font-size: large;
+}
+
+.MuiCardHeader-root .MuiCardHeader-content .MuiTypography-root.MuiCardHeader-subheader {
+  font-size: medium;
+}
+
+.MuiCardContent-root {
+  /* height: 100%; */
+}
+
+.MuiCardContent-root .MuiTypography-root.MuiTypography-caption {
+  font-size: 10pt;
+  line-height: 11pt;
+}
+
+.MuiCardContent-root .MuiTypography-root.MuiTypography-h6 {
+  white-space: nowrap;
+}
+
+.MuiCardContent-root .MuiTypography-root.MuiTypography-body1 {
+  font-size: 12pt;
+  line-height: 13pt;
+  margin-bottom: 0px !important;
+  height: auto !important;
+}
+
+.MuiCardContent-root .MuiTypography-root.MuiTypography-paragraph {
+  margin-top: 12pt !important;
+  margin-bottom: 12pt !important;
+}
+
+.MuiCardActions-root .MuiTypography-root.MuiTypography-h6 {
+  white-space: nowrap;
+}
+
+.MuiCardActions-root .MuiTypography-root.MuiTypography-body1 {
+  font-size: 12pt;
+  line-height: 13pt;
+  margin-bottom: 0px !important;
+  height: auto !important;
+
+  white-space: nowrap;
+}
+
+/* */
+/* Menu */
+
+.MuiListItemButton-root {
+  min-height: 46px;
+}
+
+/* */
