@@ -1,16 +1,20 @@
 import { useTheme } from "@emotion/react";
-import { ChildCare, Cookie, DirectionsRun, Gamepad, KeyboardArrowLeft, MenuOutlined, QuestionMark } from "@mui/icons-material";
-import { AppBar, Avatar, Badge, Box, Button, Drawer, Fade, IconButton, Stack, Toolbar, Typography, useMediaQuery, useScrollTrigger } from "@mui/material";
+import { ChildCare, Cookie, KeyboardArrowLeft, PlayArrow, QuestionMark } from "@mui/icons-material";
+import { Avatar, Badge, Box, Button, Drawer, Fade, IconButton, Stack, Typography, useMediaQuery, useScrollTrigger } from "@mui/material";
 import classNames from "classnames";
 import { makeStyles } from "mui-styles";
-import { useCallback, useEffect, useReducer } from "react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useGameScores } from "../Game/useGameScores";
+import useSound from 'use-sound';
 import { AppContext } from "./App";
 import { propUpdateReducer } from "./common/utility/propUpdateReducer";
 import { NavigationMenu } from "./navigation/NavigationMenu";
-import NavigationRoutes from "./navigation/NavigationRoutes";
+
+import boopSfx from '../public/sounds/boop.mp3';
+import fanfareSfx from '../public/sounds/fanfare.mp3';
+import glugSfx from '../public/sounds/glug.mp3';
+import risingPopsSfx from '../public/sounds/rising-pops.mp3';
+
 
 const DRAWER_WIDTH_EXPANDED = 240;
 const DRAWER_WIDTH_EXPANDED_MOBILE = 350;
@@ -172,13 +176,29 @@ export const AppShell = () => {
 
     // ---
 
+    const [playStart] = useSound(risingPopsSfx);
+    const [playPrimary] = useSound(glugSfx);
+    const [playSecondary] = useSound(boopSfx);
+    const [playVictory] = useSound(fanfareSfx);
+
     const scoresInitializer = () => {
         return {
             primary: [],
             secondary: [],
         };
     };
-    const [scores, dispatchScores] = useReducer(propUpdateReducer, {}, scoresInitializer);
+    const propUpdateReducerWrapper = (state, action) => {
+        if (action?.payload?.key == "primary") {
+            playPrimary();
+        } else if (action?.payload?.key == "secondary") {
+            playSecondary();
+        } else {
+            alert(targetType);
+        }
+
+        return propUpdateReducer(state, action);
+    }
+    const [scores, dispatchScores] = useReducer(propUpdateReducerWrapper, {}, scoresInitializer);
 
     useEffect(() => {
         const onMessage = event => {
@@ -209,6 +229,20 @@ export const AppShell = () => {
             };
         }
     }, []);
+
+    const [isArStarted, setIsArStarted] = useState(false);
+    const [isVictory, setIsVictory] = useState(false);
+
+    const VICTORY_PRIMARY_COUNT = 4;
+    const VICTORY_SECONDARY_COUNT = 3;
+    useEffect(() => {
+        if (isArStarted
+            && scores.primary?.length >= VICTORY_PRIMARY_COUNT
+            && scores.secondary?.length >= VICTORY_SECONDARY_COUNT) {
+            setIsVictory(true);
+            playVictory();
+        }
+    }, [scores])
 
     const targetHit = message => {
         // Function to be called from iframe
@@ -281,6 +315,11 @@ export const AppShell = () => {
         </Drawer>
     );
 
+    const startAR = () => {
+        playStart();
+        setIsArStarted(true);
+    }
+
     return (<>
         <Stack direction="column" display="flex" sx={{ height: "100%", boxSizing: "border-box" }}>
             <Box>
@@ -289,23 +328,93 @@ export const AppShell = () => {
                         Hide and Seek
                     </Typography>
                     <Box display="block" sx={{ justifySelf: "flex-end", }}>
-                        <IconButton variant="outlined" sx={{ borderWidth: 1, borderColor: "black" }}>
-                            <Avatar sx={{bgcolor: "info.main"}}><QuestionMark /></Avatar>
+                        <IconButton onClick={playSecondary} variant="outlined" sx={{ borderWidth: 1, borderColor: "black" }}>
+                            <Avatar sx={{ bgcolor: "info.main" }}><QuestionMark /></Avatar>
                         </IconButton>
                     </Box>
                 </Stack>
             </Box>
-            <iframe src="./Game/index.html" width="100%" style={{ border: 0, flexGrow: 1, boxSizing: "border-box" }}>
+
+            <Box width="100%" style={{
+                alignItems: "center", justifyContent: "center",
+                border: 0, flexGrow: 1, boxSizing: "border-box",
+                display: (isArStarted || isVictory) ? "none" : "flex",
+
+                borderTop: "1px solid #87CEEB88",
+                borderBottom: "1px solid #87CEEB88",
+                boxShadow: "0px 10px 5px #87CEEB88, 0px -10px 5px #87CEEB88",
+            }}>
+                <Stack direction="column" spacing={2}>
+                    <img src="./images/elf/elfeat.gif" />
+
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        <Typography>
+                            Find {VICTORY_PRIMARY_COUNT}
+                        </Typography>
+                        <Avatar sx={{ bgcolor: "primary.light" }}>
+                            <ChildCare fontSize="large" />
+                        </Avatar>
+                    </Stack>
+
+                    <Stack direction="row" spacing={2} alignItems="center">
+                        <Typography>
+                            Find {VICTORY_SECONDARY_COUNT}
+                        </Typography>
+                        <Avatar sx={{ bgcolor: "primary.light" }}>
+                            <Cookie fontSize="large" />
+                        </Avatar>
+                    </Stack>
+
+                    <Typography paragraph>
+                        Find all the elves! Find all the cookies!
+                    </Typography>
+                    <Button color="info" onClick={startAR} variant="contained" endIcon={<PlayArrow />}>
+                        Start
+                    </Button>
+                </Stack>
+            </Box>
+            <Box width="100%" sx={{
+                border: 0,
+                borderTop: "1px solid #87CEEB88",
+                borderBottom: "1px solid #87CEEB88",
+                boxShadow: "0px 10px 5px #87CEEB88, 0px -10px 5px #87CEEB88",
+                alignItems: "center", justifyContent: "center",
+                flexGrow: 1, boxSizing: "border-box",
+                display: (isVictory) ? "flex" : "none",
+
+                backgroundImage: "url('./images/elf/confetti.gif')",
+                backgroundRepeat: "repeat",
+            }}>
+                <Stack direction="column" sx={{ alignItems: "center" }}>
+                    <Typography color="blue" fontSize="30pt" sx={{
+                        pr: 3,
+                        // textShadow: "0.1em 0.1em 0.2em blue"
+                        color: "white",
+                        textShadow: "0px 2px 4px blue",
+                    }}>
+                        Congratulations!
+                    </Typography>
+                    <img src="./images/elf/elfwave.gif" />
+                </Stack>
+            </Box>
+            <iframe src="./Game/index.html" width="100%" style={{
+                border: 0, flexGrow: 1, boxSizing: "border-box",
+                display: (isArStarted && !isVictory) ? "block" : "none",
+                borderTop: "1px solid #87CEEB88",
+                borderBottom: "1px solid #87CEEB88",
+                boxShadow: "0px 10px 5px #87CEEB88, 0px -10px 5px #87CEEB88",
+            }}>
             </iframe>
-            <Box sx={{ p: 2 }}>
+
+            <Box sx={{ p: 2, pt: 3 }}>
                 <Stack direction="row" spacing={3}>
                     <Badge badgeContent={scores?.primary?.length}>
-                        <Avatar sx={{ bgcolor: "primary.light" }}>
+                        <Avatar onClick={playPrimary} sx={{ bgcolor: "primary.light" }}>
                             <ChildCare fontSize="large" />
                         </Avatar>
                     </Badge>
                     <Badge badgeContent={scores?.secondary?.length}>
-                        <Avatar sx={{ bgcolor: "primary.light" }}>
+                        <Avatar onClick={playSecondary} sx={{ bgcolor: "primary.light" }}>
                             <Cookie fontSize="large" />
                         </Avatar>
                     </Badge>
