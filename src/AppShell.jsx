@@ -325,7 +325,7 @@ export const AppShell = () => {
             <Box>
                 <Stack direction="row" alignItems="center" sx={{ p: 2, width: "100%", display: "flex", boxSizing: "border-box" }}>
                     <Typography sx={{ flexGrow: 1 }}>
-                        Hide and Seek
+                        Sample
                     </Typography>
                     <Box display="block" sx={{ justifySelf: "flex-end", }}>
                         <IconButton onClick={playSecondary} variant="outlined" sx={{ borderWidth: 1, borderColor: "black" }}>
@@ -338,68 +338,21 @@ export const AppShell = () => {
             <Box width="100%" style={{
                 alignItems: "center", justifyContent: "center",
                 border: 0, flexGrow: 1, boxSizing: "border-box",
-                display: (isArStarted || isVictory) ? "none" : "flex",
+                display: (isArStarted) ? "none" : "flex",
 
                 borderTop: "1px solid #87CEEB88",
                 borderBottom: "1px solid #87CEEB88",
                 boxShadow: "0px 10px 5px #87CEEB88, 0px -10px 5px #87CEEB88",
             }}>
                 <Stack direction="column" spacing={2}>
-                    <img src="./images/elf/elfeat.gif" />
-
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        <Typography>
-                            Find {VICTORY_PRIMARY_COUNT}
-                        </Typography>
-                        <Avatar sx={{ bgcolor: "primary.light" }}>
-                            <ChildCare fontSize="large" />
-                        </Avatar>
-                    </Stack>
-
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        <Typography>
-                            Find {VICTORY_SECONDARY_COUNT}
-                        </Typography>
-                        <Avatar sx={{ bgcolor: "primary.light" }}>
-                            <Cookie fontSize="large" />
-                        </Avatar>
-                    </Stack>
-
-                    <Typography paragraph>
-                        Find all the elves! Find all the cookies!
-                    </Typography>
                     <Button color="info" onClick={startAR} variant="contained" endIcon={<PlayArrow />}>
                         Start
                     </Button>
                 </Stack>
             </Box>
-            <Box width="100%" sx={{
-                border: 0,
-                borderTop: "1px solid #87CEEB88",
-                borderBottom: "1px solid #87CEEB88",
-                boxShadow: "0px 10px 5px #87CEEB88, 0px -10px 5px #87CEEB88",
-                alignItems: "center", justifyContent: "center",
-                flexGrow: 1, boxSizing: "border-box",
-                display: (isVictory) ? "flex" : "none",
-
-                backgroundImage: "url('./images/elf/confetti.gif')",
-                backgroundRepeat: "repeat",
-            }}>
-                <Stack direction="column" sx={{ alignItems: "center" }}>
-                    <Typography color="blue" fontSize="30pt" sx={{
-                        pr: 3,
-                        // textShadow: "0.1em 0.1em 0.2em blue"
-                        color: "white",
-                        textShadow: "0px 2px 4px blue",
-                    }}>
-                        Congratulations!
-                    </Typography>
-                    <img src="./images/elf/elfwave.gif" />
-                </Stack>
-            </Box>
             <iframe src="./Game/index.html" width="100%" style={{
                 border: 0, flexGrow: 1, boxSizing: "border-box",
-                display: (isArStarted && !isVictory) ? "block" : "none",
+                display: (isArStarted) ? "block" : "none",
                 borderTop: "1px solid #87CEEB88",
                 borderBottom: "1px solid #87CEEB88",
                 boxShadow: "0px 10px 5px #87CEEB88, 0px -10px 5px #87CEEB88",
