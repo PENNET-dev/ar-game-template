@@ -34,6 +34,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         nested: resolve(__dirname, 'Game/index.html'),
       },
+      sourcemap: true,
     },
   },
 })

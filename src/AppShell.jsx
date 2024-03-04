@@ -251,15 +251,15 @@ export const AppShell = () => {
         console.log("msg! pushing", targetType, targetID);
         // gameScoreActions.pushTarget(targetType, targetID);
 
-        if (!scores[targetType]?.includes(targetID)) {
-            dispatchScores({
-                type: 'push',
-                payload: {
-                    key: targetType,
-                    value: targetID
-                },
-            });
-        }
+        // if (!scores[targetType]?.includes(targetID)) {
+        //     dispatchScores({
+        //         type: 'push',
+        //         payload: {
+        //             key: targetType,
+        //             value: targetID
+        //         },
+        //     });
+        // }
     };
 
     // --- --- ---

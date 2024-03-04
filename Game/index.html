@@ -11,12 +11,59 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
     <script>
         function postMessage(func, message) {
             window.parent.postMessage({
                 'func': func,
                 'message': message
             }, "*");
+        }
+
+        function appendObject(id, markerValue, file, scale, position, rotation, scale) {
+            var markerElement = $('<a-marker />');
+            markerElement.attr({
+                type: "barcode",
+                value: markerValue
+            });
+
+            // Call the component to add the entity to the scene
+            var entityElement = $('<a-entity />');
+            entityElement.attr({
+                id: id,
+                geometry: 'primitive: plane;',
+                color: '#4CC3D9',
+                position: '0 0 -3',
+                rotation: '0 0 0',
+                scale: '0.2 0.2 0.2',
+                material: 'src:url(../images/elf/cookiespin.gif);opacity:1.0',
+                gif: '../images/elf/cookiespin.gif',
+                'dynamic-entity-on-load': ''
+            });
+
+            markerElement.append(entityElement);
+
+            var textElement = $('<a-text />');
+            textElement.attr({
+                value: 'Test123',
+                align: 'center',
+                color: '#ffffff',
+                font: 'https://cdn.aframe.io/fonts/Exo2Bold.fnt',
+                width: '4',
+                'wrap-count': '20',
+                position: '0 -0.55 0.1',
+                scale: '0.75 0.75 0.75',
+                'text-outline-color': 'black',
+                'text-outline-width': '0.02',
+                'text-outline-offset': '0.01',
+            });
+
+            entityElement.append(textElement);
+
+            var sceneEl = $('a-scene');
+            sceneEl.append(markerElement);
+            $('#staticEntity').attr("position", position); // this does set position as a workaround
         }
 
         AFRAME.registerComponent('change-color-on-hover', {
@@ -29,18 +76,37 @@
                 var el = this.el;  // <a-box>
                 var defaultColor = el.getAttribute('material').color;
 
-                el.addEventListener('mouseenter', function () {
-                    el.setAttribute('color', data.color);
-                    el.setAttribute('opacity', 0.8);
-                    console.log("msg!", "???", el.getAttribute("id"));
-                    postMessage("targetHit", el.getAttribute("id"));
-                    console.log("msg!", "??? !!!", el.getAttribute("id"));
-                    // document.getElementById('image01').dispatchEvent(new CustomEvent("rotation-pause"));
-                });
+                // el.addEventListener('mouseenter', function () {
+                //     el.setAttribute('color', data.color);
+                //     el.setAttribute('opacity', 0.8);
+                //     console.log("msg!", "???", el.getAttribute("id"));
+                //     postMessage("targetHit", el.getAttribute("id"));
+                //     console.log("msg!", "??? !!!", el.getAttribute("id"));
+                //     // document.getElementById('image01').dispatchEvent(new CustomEvent("rotation-pause"));
+                // });
 
                 // el.addEventListener('mouseleave', function () {
                 // 	el.setAttribute('color', defaultColor);
                 // });
+            }
+        });
+
+        // Adds a new component to A-Frame scene
+        AFRAME.registerComponent('static-entity', {
+            init: function () {
+                try {
+                    for (var i = 1; i <= 10; i++) {
+                        appendObject("foo1", i, "", "0.5 0.5 0.5", "0 0 -3", "0 0 0", "0.2 0.2 0.2");
+                    }
+                } catch (e) {
+                    console.log("Register component", "error", e);
+                }
+            }
+        });
+
+        // Adds a new component to A-Frame scene
+        AFRAME.registerComponent('dynamic-entity-on-load', {
+            init: function () {
             }
         });
     </script>
@@ -55,84 +121,11 @@
     </div>
 
     <a-scene embedded arjs="detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
-
-        <a-marker type="barcode" value="1">
-            <a-image id="secondary_01" src="../images/elf/checkmark.png" rotation="-90 0 0" material="opacity:0"
-                change-color-on-hover="color: green"></a-image>
-            <a-plane color="#EF2D5E" rotation="-90 0 0" material="opacity:0" change-color-on-hover="color: green">
-            </a-plane>
-            <a-entity geometry="primitive:plane;" rotation="-90 0 0"
-                material="shader:gif;src:url(../images/elf/cookiespin.gif);opacity:1.0" gif=""
-                Xanimation="property: rotation; dur: 10000;to: -90 0 360; loop: true; easing: linear;  pauseEvents: rotation-pause; resumeEvents: rotation-resume; "></a-entity>
-        </a-marker>
-
-        <a-marker type="barcode" value="2">
-            <a-image id="secondary_02" src="../images/elf/checkmark.png" rotation="-90 0 0" material="opacity:0"
-                change-color-on-hover="color: green"></a-image>
-            <a-plane color="#EF2D5E" rotation="-90 0 0" material="opacity:0" change-color-on-hover="color: green">
-            </a-plane>
-            <a-entity geometry="primitive:plane;" rotation="-90 0 0"
-                material="shader:gif;src:url(../images/elf/cookiespin.gif);opacity:1.0" gif=""
-                Xanimation="property: rotation; dur: 10000;to: -90 0 360; loop: true; easing: linear;  pauseEvents: rotation-pause; resumeEvents: rotation-resume; "></a-entity>
-        </a-marker>
-
-        <a-marker type="barcode" value="3">
-            <a-image id="secondary_03" src="../images/elf/checkmark.png" rotation="-90 0 0" material="opacity:0"
-                change-color-on-hover="color: green"></a-image>
-            <a-plane color="#EF2D5E" rotation="-90 0 0" material="opacity:0" change-color-on-hover="color: green">
-            </a-plane>
-            <a-entity geometry="primitive:plane;" rotation="-90 0 0"
-                material="shader:gif;src:url(../images/elf/cookiespin.gif);opacity:1.0" gif=""
-                Xanimation="property: rotation; dur: 10000;to: -90 0 360; loop: true; easing: linear;  pauseEvents: rotation-pause; resumeEvents: rotation-resume; "></a-entity>
-        </a-marker>
-
-
-
-        <a-marker type="barcode" value="4">
-            <a-image id="primary_04" src="../images/elf/checkmark.png" rotation="-90 0 0" material="opacity:0"
-                change-color-on-hover="color: green"></a-image>
-            <a-plane color="#EF2D5E" rotation="-90 0 0" material="opacity:0" change-color-on-hover="color: green">
-            </a-plane>
-            <a-entity geometry="primitive:plane;" rotation="-90 0 0"
-                material="shader:gif;src:url(../images/elf/elfbowl.gif);opacity:1.0" gif=""
-                Xanimation="property: rotation; dur: 10000;to: -90 0 360; loop: true; easing: linear;  pauseEvents: rotation-pause; resumeEvents: rotation-resume; "></a-entity>
-        </a-marker>
-
-        <a-marker type="barcode" value="5">
-            <a-image id="primary_05" src="../images/elf/checkmark.png" rotation="-90 0 0" material="opacity:0"
-                change-color-on-hover="color: green"></a-image>
-            <a-plane color="#EF2D5E" rotation="-90 0 0" material="opacity:0" change-color-on-hover="color: green">
-            </a-plane>
-            <a-entity geometry="primitive:plane;" rotation="-90 0 0"
-                material="shader:gif;src:url(../images/elf/elfeat.gif);opacity:1.0" gif=""
-                Xanimation="property: rotation; dur: 10000;to: -90 0 360; loop: true; easing: linear;  pauseEvents: rotation-pause; resumeEvents: rotation-resume; "></a-entity>
-        </a-marker>
-
-        <a-marker type="barcode" value="6">
-            <a-image id="primary_06" src="../images/elf/checkmark.png" rotation="-90 0 0" material="opacity:0"
-                change-color-on-hover="color: green"></a-image>
-            <a-plane color="#EF2D5E" rotation="-90 0 0" material="opacity:0" change-color-on-hover="color: green">
-            </a-plane>
-            <a-entity geometry="primitive:plane;" rotation="-90 0 0"
-                material="src:url(../images/elf/elfstil.png);opacity:1.0" gif=""
-                Xanimation="property: rotation; dur: 10000;to: -90 0 360; loop: true; easing: linear;  pauseEvents: rotation-pause; resumeEvents: rotation-resume; "></a-entity>
-        </a-marker>
-
-        <a-marker type="barcode" value="7">
-            <a-image id="primary_07" src="../images/elf/checkmark.png" rotation="-90 0 0" material="opacity:0"
-                change-color-on-hover="color: green"></a-image>
-            <a-plane color="#EF2D5E" rotation="-90 0 0" material="opacity:0" change-color-on-hover="color: green">
-            </a-plane>
-            <a-entity geometry="primitive:plane;" rotation="-90 0 0"
-                material="shader:gif;src:url(../images/elf/TpR.gif);opacity:1.0" gif=""
-                Xanimation="property: rotation; dur: 10000;to: -90 0 360; loop: true; easing: linear;  pauseEvents: rotation-pause; resumeEvents: rotation-resume; "></a-entity>
-        </a-marker>
-
+        <a-box id="staticEntity" position='0 0 0' material='opacity: 0;' static-entity></a-box>
 
         <a-entity camera>
             <a-cursor></a-cursor>
         </a-entity>
-
     </a-scene>
 </body>
 
