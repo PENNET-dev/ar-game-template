@@ -31,12 +31,14 @@
             // Call the component to add the entity to the scene
             var entityElement = $('<a-entity />');
             entityElement.attr({
-                id: id,
+                // id: id,
                 geometry: 'primitive: plane;',
                 color: '#4CC3D9',
-                position: '0 0 -3',
-                rotation: '0 0 0',
-                scale: '0.2 0.2 0.2',
+                // position: '0 0 -3',
+                // rotation: '0 0 0',
+                // scale: '0.2 0.2 0.2',
+                rotation: '-90 0 0',
+                'change-color-on-hover': "color: green",
                 material: 'src:url(../images/elf/cookiespin.gif);opacity:1.0',
                 gif: '../images/elf/cookiespin.gif',
                 'dynamic-entity-on-load': ''
@@ -63,7 +65,7 @@
 
             var sceneEl = $('a-scene');
             sceneEl.append(markerElement);
-            $('#staticEntity').attr("position", position); // this does set position as a workaround
+            // $('#staticEntity').attr("position", position); // this does set position as a workaround
         }
 
         AFRAME.registerComponent('change-color-on-hover', {
